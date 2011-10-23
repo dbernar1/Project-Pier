@@ -112,7 +112,7 @@
     'summary' => 'Summary',
     'category' => 'Category',
     'priority' => 'Priority',
-    'state' => 'Status',
+    'ticket state' => 'Status',
     'assigned to' => 'Assigned to',
     'reported by' => 'Reported by',
     'closed' => 'Closed',
