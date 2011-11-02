@@ -1,13 +1,10 @@
 <?php
-
-  set_page_title($contact->isNew() ? lang('add contact') : lang('edit contact'));
+	set_page_title(lang('update profile'));
   $user = $contact->getUserAccount();
   if ($user->getId() == logged_user()->getId()) {
-    set_page_title(lang('update profile'));
     account_tabbed_navigation();
     account_crumbs(lang('update profile'));
   } else {
-    set_page_title(lang('update profile'));
     if ($company instanceof Company && $company->isOwner()) {
       if (logged_user()->isAdministrator()) {
         administration_tabbed_navigation(ADMINISTRATION_TAB_COMPANY);
@@ -16,13 +13,11 @@
           array(lang('update profile'))
         ));
       } else {
-        set_page_title(lang('update profile'));
         account_tabbed_navigation('contact');
         account_crumbs(lang('update profile'));
       }
     } else {
        if ($contact->canEdit(logged_user())) {
-         set_page_title(lang('update profile'));
          account_tabbed_navigation('contact');
          account_crumbs(lang('update profile'));
       } else {
