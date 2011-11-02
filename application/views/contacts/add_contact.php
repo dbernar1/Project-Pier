@@ -34,7 +34,6 @@
   
   if ($user->canUpdateProfile(logged_user())) {
     add_page_action(array(
-      lang('update profile')  => $user->getEditProfileUrl(),
       lang('change password') => $user->getEditPasswordUrl()
     ));
   } // if
