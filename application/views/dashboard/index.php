@@ -60,7 +60,7 @@ if (config_option('per_project_activity_logs',0) == 1) {
   } // if 
 } else {
   if (isset($activity_log) && is_array($activity_log) && count($activity_log)) { 
-    echo render_application_logs($activity_log, array('show_project_column' => true));
+    echo render_application_logs( $activity_log, array( 'show_project_column' => true, 'include_silent' => $include_silent ) );
   } else {
     echo lang('no recent activities');
   } // if

@@ -34,7 +34,7 @@
       $projects_activity_log = array();
       if (is_array($active_projects) && count($active_projects)) {
         $include_private = $logged_user->isMemberOfOwnerCompany();
-        $include_silent = $logged_user->isAdministrator();
+        $include_silent = $logged_user->isAdministrator() ? isset( $_GET[ 'include_silent' ] ) : false;
         
         $project_ids = array();
         foreach ($active_projects as $active_project) {
@@ -64,6 +64,7 @@
       tpl_assign('active_projects', $active_projects);
       tpl_assign('activity_log', $activity_log);
       tpl_assign('projects_activity_log', $projects_activity_log);
+      tpl_assign( 'include_silent', $include_silent );
       
       // Sidebar
       tpl_assign('online_users', Users::getWhoIsOnline());
