@@ -104,6 +104,7 @@
     'remove company from project' => 'Remove from project',
     
     // Password
+    'add contact' => 'New contact',
     'update profile' => 'Edit profile',
     'change password' => 'Change password',
     'update avatar' => 'Edit logo',
