@@ -92,7 +92,7 @@
   trace(__FILE__,'connect to database');
   // Connect to database...
   try {
-    DB::connect(DB_ADAPTER, array(
+    DB::connect(array(
       'host'    => DB_HOST,
       'user'    => DB_USER,
       'pass'    => DB_PASS,
