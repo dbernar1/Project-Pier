@@ -53,7 +53,6 @@
       $config_form_data = array_var($_POST, 'config_form');
       if (!is_array($config_form_data)) {
         $config_form_data = array(
-          'database_type'    => $this->getFromStorage('database_type', 'MySQL'),
           'database_host'    => $this->getFromStorage('database_host', 'localhost'),
           'database_user'    => $this->getFromStorage('database_user', 'root'),
           'database_pass'    => $this->getFromStorage('database_pass'),
@@ -66,7 +65,6 @@
       tpl_assign('config_form_data', $config_form_data);
       
       if ($this->isSubmitted()) {
-        $database_type    = (string) array_var($config_form_data, 'database_type');
         $database_host    = (string) array_var($config_form_data, 'database_host');
         $database_user    = (string) array_var($config_form_data, 'database_user');
         $database_pass    = (string) array_var($config_form_data, 'database_pass');
@@ -81,7 +79,6 @@
           // ---------------------------------------------------
           $mysql_version = mysql_get_server_info($this->database_connection);
           if ($mysql_version && version_compare($mysql_version, '4.1', '>=')) {
-            $this->addToStorage('database_type', $database_type);
             $this->addToStorage('database_host', $database_host);
             $this->addToStorage('database_user', $database_user);
             $this->addToStorage('database_pass', $database_pass);

@@ -655,10 +655,11 @@
   * @param array $log_entries
   * @return null
   */
-  function render_application_logs($log_entries, $options = null) {
+  function render_application_logs( $log_entries, $options = null ) {
     if (config_option('display_application_logs', true)) {
       tpl_assign('application_logs_entries', $log_entries);
       tpl_assign('application_logs_show_project_column', array_var($options, 'show_project_column', true));
+      tpl_assign( 'include_silent', array_var( $options, 'include_silent', false ) );
       return tpl_fetch(get_template_path('render_application_logs', 'application'));
     }
     return '';

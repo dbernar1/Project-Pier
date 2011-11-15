@@ -112,7 +112,7 @@
     'summary' => 'Samantekt',
     'category' => 'Flokkur',
     'priority' => 'Forgangur',
-    'state' => 'Staða',
+    'ticket state' => 'Staða',
     'assigned to' => 'Úthlutað til',
     'reported by' => 'Tilkynnt af',
     'closed' => 'Lokaður',

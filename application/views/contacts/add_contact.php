@@ -1,54 +1,77 @@
 <?php
-
-  set_page_title($contact->isNew() ? lang('add contact') : lang('edit contact'));
-  $user = $contact->getUserAccount();
-  if ($user->getId() == logged_user()->getId()) {
-    set_page_title(lang('update profile'));
-    account_tabbed_navigation();
-    account_crumbs(lang('update profile'));
-  } else {
-    set_page_title(lang('update profile'));
+  if ( $contact->isNew() ) { // We're editing a contact
+    set_page_title(lang('add contact'));
     if ($company instanceof Company && $company->isOwner()) {
       if (logged_user()->isAdministrator()) {
         administration_tabbed_navigation(ADMINISTRATION_TAB_COMPANY);
         administration_crumbs(array(
           array(lang('company'), $company->getViewUrl()),
-          array(lang('update profile'))
+          array(lang('add contact'))
         ));
       } else {
-        set_page_title(lang('update profile'));
         account_tabbed_navigation('contact');
-        account_crumbs(lang('update profile'));
+        account_crumbs(lang('add contact'));
       }
     } else {
        if ($contact->canEdit(logged_user())) {
-         set_page_title(lang('update profile'));
          account_tabbed_navigation('contact');
-         account_crumbs(lang('update profile'));
+         account_crumbs(lang('add contact'));
       } else {
         administration_tabbed_navigation(ADMINISTRATION_TAB_CLIENTS);
         administration_crumbs(array(
           array(lang('clients'), get_url('administration', 'clients')),
           array($company->getName(), $company->getViewUrl()),
           array($user->getDisplayName(), $user->getCardUrl()),
-          array(lang('update profile'))
+          array(lang('add contact'))
         ));
       } // if
     } // if
-  } // if
-  
-  if ($user->canUpdateProfile(logged_user())) {
-    add_page_action(array(
-      lang('update profile')  => $user->getEditProfileUrl(),
-      lang('change password') => $user->getEditPasswordUrl()
-    ));
-  } // if
-  
-  if ($user->canUpdatePermissions(logged_user())) {
-    add_page_action(array(
-      lang('permissions')  => $user->getUpdatePermissionsUrl()
-    ));
-  } // if
+  } else {
+    $user = $contact->getUserAccount();
+    set_page_title(lang('update profile'));
+    if ($user->getId() == logged_user()->getId()) {
+      account_tabbed_navigation();
+      account_crumbs(lang('update profile'));
+    } else {
+      if ($company instanceof Company && $company->isOwner()) {
+        if (logged_user()->isAdministrator()) {
+          administration_tabbed_navigation(ADMINISTRATION_TAB_COMPANY);
+          administration_crumbs(array(
+            array(lang('company'), $company->getViewUrl()),
+            array(lang('update profile'))
+          ));
+        } else {
+          account_tabbed_navigation('contact');
+          account_crumbs(lang('update profile'));
+        }
+      } else {
+         if ($contact->canEdit(logged_user())) {
+           account_tabbed_navigation('contact');
+           account_crumbs(lang('update profile'));
+        } else {
+          administration_tabbed_navigation(ADMINISTRATION_TAB_CLIENTS);
+          administration_crumbs(array(
+            array(lang('clients'), get_url('administration', 'clients')),
+            array($company->getName(), $company->getViewUrl()),
+            array($user->getDisplayName(), $user->getCardUrl()),
+            array(lang('update profile'))
+          ));
+        } // if
+      } // if
+    } // if
+    
+    if ($user->canUpdateProfile(logged_user())) {
+      add_page_action(array(
+        lang('change password') => $user->getEditPasswordUrl()
+      ));
+    } // if
+    
+    if ($user->canUpdatePermissions(logged_user())) {
+      add_page_action(array(
+        lang('permissions')  => $user->getUpdatePermissionsUrl()
+      ));
+    } // if
+  }
 
   add_stylesheet_to_page('admin/user_permissions.css');
 

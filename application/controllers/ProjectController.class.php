@@ -396,7 +396,7 @@
           DB::commit();
           
           flash_success(lang('success add project', $project->getName()));
-          $this->redirectToUrl($project->getPermissionsUrl());
+          $this->redirectToUrl( $project->getOverviewUrl() );
           
         } catch(Exception $e) {
           tpl_assign('error', $e);

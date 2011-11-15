@@ -45,7 +45,8 @@
   // If script is not installed config.php will return false. Otherwise it will
   // return NULL. If we get false redirect to install folder
   if (!@include_once(ROOT . '/config/config.php')) {
-    print "ProjectPier is not installed. Please redirect your browser to <b><a href=\"./". PUBLIC_FOLDER . "/install\">" . PUBLIC_FOLDER . "/install</a></b> folder and follow installation procedure";
+    header('HTTP/1.1 302 Found');
+    header('Location: '.PUBLIC_FOLDER.'/install');
     die();
   } // if
 
@@ -91,7 +92,7 @@
   trace(__FILE__,'connect to database');
   // Connect to database...
   try {
-    DB::connect(DB_ADAPTER, array(
+    DB::connect(array(
       'host'    => DB_HOST,
       'user'    => DB_USER,
       'pass'    => DB_PASS,

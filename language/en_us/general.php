@@ -2,6 +2,8 @@
 
   // Return array of langs
   return array(
+    'hide application log noise' => 'Hide System Events',
+    'show application log noise' => 'Show System Events',
     'invalid reference' => 'invalid reference',
     'username' => 'Username',
     'password' => 'Password',

@@ -58,12 +58,12 @@
     * @throws FileDnxError
     * @throws DBAdapterDnx
     */
-    static function connect($adapter, $params, $connection_name = null) {
+    static function connect($params, $connection_name = null) {
       $connection_name = is_null($connection_name) || trim($connection_name) == '' ? 
         self::PRIMARY_CONNECTION_ID : 
         trim($connection_name);
         
-      $adapter = self::connectAdapter($adapter, $params);
+      $adapter = self::connectAdapter('Mysql', $params);
       if (($adapter instanceof AbstractDBAdapter) && $adapter->isConnected()) {
         self::$connections[$connection_name] = $adapter;
         return $adapter;

@@ -109,7 +109,7 @@
     'summary' => 'Общие сведения',
     'category' => 'Категория',
     'priority' => 'Приоритет',
-    'state' => 'Статус',
+    'ticket state' => 'Статус',
     'assigned to' => 'Назначено',
     'reported by' => 'Сообщил',
     'closed' => 'Закрыт',

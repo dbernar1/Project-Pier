@@ -69,7 +69,7 @@
     'private ticket desc' => 'I ticket privati sono visibili solo ai membri dell\'azienda proprietaria. I membri delle aziende clienti non sono in grado di vederli.',
     'private ticket' => 'Ticket privato',
     'reported by' => 'Segnalato da',
-    'state' => 'Stato',
+    'ticket state' => 'Stato',
     'subscribers ticket desc' => 'Gli iscritti riceveranno una notifica via email ogni volta che qualcuno (eccetto loro stessi) farà una modifica o un commento a questo ticket',
     'success add category' => 'La categoria \'%s\' è stata aggiunta',
     'success add ticket' => 'Ticket \'%s\' aggiunto',

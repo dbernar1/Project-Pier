@@ -4,7 +4,7 @@
 ?>
 <?php if (isset($application_logs_entries) && is_array($application_logs_entries) && count($application_logs_entries)) { ?>
 <div class="block">
-<div class="header"><?php echo lang('application log events my projects'); ?></div>
+<div class="header"><?php echo lang('application log events my projects'); ?><div style="float: right"><a href="<?php echo get_url( 'dashboard', 'index' ), ( $include_silent ? '' : '&include_silent=1' ) ?>"><?php echo lang( ( $include_silent ? 'hide' : 'show' ) .' application log noise' ) ?></a></div></div>
 <div class="content"><table class="applicationLogs blank">
   <tr>
     <th><?php echo lang('application log date column name') ?></th>
@@ -15,10 +15,14 @@
     <th class="right"><?php echo lang('application log project column name') ?></th>
 <?php } // if ?>
   </tr>
-<?php $row_count=0; ?>
-<?php $prev = new ApplicationLog(); ?>
-<?php foreach ($application_logs_entries as $application_log_entry) { ?>
-<?php   $row_count++; ?>
+<?php
+  $row_count=0;
+  $prev = new ApplicationLog();
+  foreach ($application_logs_entries as $application_log_entry) {
+    $application_log_entry_url = $application_log_entry->getObjectUrl();
+    if ( empty( $application_log_entry_url ) && FALSE === $include_silent ) continue; // Skip deleted objects
+    $row_count++;
+?>
 <?php 
       // skip log lines about the same object and same action
       // note: lines are ordered on creation date. any other order messes this up

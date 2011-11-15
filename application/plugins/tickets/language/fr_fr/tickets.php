@@ -112,7 +112,7 @@
     'summary' => 'Résumé',
     'category' => 'Catégorie',
     'priority' => 'Priorité',
-    'state' => 'Etat',
+    'ticket state' => 'Etat',
     'assigned to' => 'Assigné à',
     'reported by' => 'Remonté par',
     'closed' => 'Fermé',
