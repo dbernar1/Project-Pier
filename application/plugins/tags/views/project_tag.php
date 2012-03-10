@@ -64,6 +64,25 @@
 </ul>
 <?php } // if ?>
 
+<?php if (isset($tagged_objects['wiki']) && is_array($tagged_objects['wiki']) && count($tagged_objects['wiki'])) { ?>
+<h2><?php echo lang('wiki') ?></h2>
+<ul>
+<?php foreach ($tagged_objects['wiki'] as $wiki_page) { ?>
+<?php $rev = $wiki_page->getLatestRevision(); ?>
+  <li><a href="<?php echo $rev->getViewUrl() ?>"><?php echo clean($rev->getName()) ?></a> <span class="desc">- <?php echo lang('posted on by', format_date($rev->getCreatedOn()), $rev->getCreatedByCardUrl(), clean($rev->getCreatedByDisplayName())) ?></span></li>
+<?php } // foreach?>
+</ul>
+<?php } // if ?>
+
+<?php if (isset($tagged_objects['links']) && is_array($tagged_objects['links']) && count($tagged_objects['links'])) { ?>
+<h2><?php echo lang('links') ?></h2>
+<ul>
+<?php foreach ($tagged_objects['links'] as $link) { ?>
+  <li><a href="<?php echo $link->getObjectUrl() ?>"><?php echo clean($link->getObjectName()) ?></a> <span class="desc">- <?php echo lang('posted on by', format_date($link->getCreatedOn()), $link->getCreatedByCardUrl(), clean($link->getCreatedByDisplayName())) ?></span></li>
+<?php } // foreach?>
+</ul>
+<?php } // if ?>
+
 <?php } else { ?>
 <p><?php echo lang('no objects tagged with', clean($tag)) ?></p>
 <?php } // if ?>

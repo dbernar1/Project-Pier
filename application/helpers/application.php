@@ -67,6 +67,29 @@
   } // select_company
 
   /**
+  * Render select user box
+  *
+  * @param integer $selected ID of selected user
+  * @param array $attributes Additional attributes
+  * @return string
+  */
+  function select_user($name, $selected = null, $attributes = null) {
+    $users = Users::getAll();
+    $options = array(option_tag(lang('none'), 0));
+    if (is_array($users)) {
+      foreach ($users as $user) {
+        $option_attributes = $user->getId() == $selected ? array('selected' => 'selected') : null;
+        $user_name = $user->getUsername();
+        if ($user->isAdministrator()) {
+          $user_name .= ' (' . lang('administrator') . ')';
+        }
+        $options[] = option_tag($user_name, $user->getId(), $option_attributes);
+      } // foreach
+    } // if
+    return select_box($name, $options, $attributes);
+  } // select_company
+
+  /**
   * Render select contact box
   *
   * @param integer $selected ID of selected contact
@@ -655,11 +678,10 @@
   * @param array $log_entries
   * @return null
   */
-  function render_application_logs( $log_entries, $options = null ) {
+  function render_application_logs($log_entries, $options = null) {
     if (config_option('display_application_logs', true)) {
       tpl_assign('application_logs_entries', $log_entries);
       tpl_assign('application_logs_show_project_column', array_var($options, 'show_project_column', true));
-      tpl_assign( 'include_silent', array_var( $options, 'include_silent', false ) );
       return tpl_fetch(get_template_path('render_application_logs', 'application'));
     }
     return '';

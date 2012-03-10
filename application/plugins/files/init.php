@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `{$tp}project_files` (
     DB::execute($sql);
     $sql = "
 CREATE TABLE IF NOT EXISTS `{$tp}project_folders` (
-  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `id` int(10) unsigned NOT NULL auto_increment,
   `project_id` int(10) unsigned NOT NULL default '0',
   `name` varchar(50) $cs $co NOT NULL default '',
   `parent_id` int(10) unsigned NOT NULL default '0',
@@ -109,8 +109,9 @@ CREATE TABLE IF NOT EXISTS `{$tp}project_folders` (
 );
 ";
     DB::execute($sql);
+
     $sql = "
-INSERT INTO `{tp}config_options` (`category_name`, `name`, `value`, `config_handler_class`, `is_system`, `option_order`, `dev_comment`) VALUES ('features', 'files_show_icons', '1', 'BoolConfigHandler', 0, 0, 'Show file icons');
+INSERT INTO `{$tp}config_options` (`category_name`, `name`, `value`, `config_handler_class`, `is_system`, `option_order`, `dev_comment`) VALUES ('features', 'files_show_icons', '1', 'BoolConfigHandler', 0, 0, 'Show file icons');
 ";
     DB::execute($sql);
     $sql = "

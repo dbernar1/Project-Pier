@@ -58,12 +58,12 @@
     * @throws FileDnxError
     * @throws DBAdapterDnx
     */
-    static function connect($params, $connection_name = null) {
+    static function connect($adapter, $params, $connection_name = null) {
       $connection_name = is_null($connection_name) || trim($connection_name) == '' ? 
         self::PRIMARY_CONNECTION_ID : 
         trim($connection_name);
         
-      $adapter = self::connectAdapter('Mysql', $params);
+      $adapter = self::connectAdapter($adapter, $params);
       if (($adapter instanceof AbstractDBAdapter) && $adapter->isConnected()) {
         self::$connections[$connection_name] = $adapter;
         return $adapter;
@@ -127,6 +127,24 @@
     //  Interface to primary adapter
     // ---------------------------------------------------
     
+    /**
+    * Try to execute query, ignore the result
+    *
+    * @access public
+    * @param string $sql
+    * @return true
+    */
+    static function attempt($sql) {
+      $arguments = func_get_args();
+      array_shift($arguments);
+      $arguments = count($arguments) ? array_flat($arguments) : null;
+      try {
+        self::connection()->execute($sql, $arguments);
+      } catch(Exception $e) {
+      }
+      return true;
+    } // execute
+
     /**
     * Execute query and return result
     *

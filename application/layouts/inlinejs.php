@@ -1,5 +1,6 @@
 <?php ?>
 <script type="text/javascript">
+//<![CDATA[
 $(function() {
   $('.selectall').click(function() {
     var checked_status = this.checked;
@@ -113,4 +114,34 @@ post = function(url, d){
   $.ajaxSetup({url:url,global:false,async:false,type:"POST"});
   $.ajax({data: postdata});
 }
+
+$(function(){
+  $("#filter").keyup(function () {
+    var filter = $(this).val(), count = 0, s = "", i = 0;
+    // speed trick: hide all filtered objects first, do manipulations, show them again
+    $(".filtered").each(function () { $(this).hide() });
+    $(".filtered:first li,.filtered:first tr").each(function () {
+        s = $(this).text();
+        i = s.lastIndexOf("-");
+        if (i>=0) s = s.substring(0,i);
+        if (s.search(new RegExp(filter, "i")) < 0) {
+            $(this).hide();
+        } else {
+            $(this).show();
+            count++;
+        }
+    });
+    $(".filtered").each(function () { $(this).show() });
+    $("#filter-count").text(count + ' <?php echo lang('shown/lc'); ?>' );
+  });
+});
+
+$(function(){
+  $("#i18n_values .edit").editable('<?php echo get_url('i18n', 'edit_value', null, null, false, '&'); ?>', { 
+    indicator : '<?php echo lang('saving'); ?>',
+    tooltip   : '<?php echo lang('click to edit'); ?>',
+    style     : 'inherit' 
+  });
+});
+//]]>
 </script>

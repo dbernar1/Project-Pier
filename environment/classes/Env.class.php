@@ -242,10 +242,8 @@
     static function getTemplatePath($template, $controller_name = null) {
       trace(__FILE__,"getTemplatePath($template, $controller_name)");
       // Look for template file in theme, core and plugin directories
-      
       $template_path=THEMES_DIR.'/'.config_option('theme')."/views/$controller_name/$template.php";
       if (is_readable($template_path)) return $template_path;
-
       $template_path=APPLICATION_PATH."/views/$controller_name/$template.php";
       if (is_readable($template_path)) return $template_path;
       $template_path_plugin='';

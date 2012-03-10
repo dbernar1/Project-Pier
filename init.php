@@ -45,8 +45,7 @@
   // If script is not installed config.php will return false. Otherwise it will
   // return NULL. If we get false redirect to install folder
   if (!@include_once(ROOT . '/config/config.php')) {
-    header('HTTP/1.1 302 Found');
-    header('Location: '.PUBLIC_FOLDER.'/install');
+    print "ProjectPier is not installed. Please redirect your browser to <b><a href=\"./". PUBLIC_FOLDER . "/install\">" . PUBLIC_FOLDER . "/install</a></b> folder and follow installation procedure";
     die();
   } // if
 
@@ -92,7 +91,7 @@
   trace(__FILE__,'connect to database');
   // Connect to database...
   try {
-    DB::connect(array(
+    DB::connect(DB_ADAPTER, array(
       'host'    => DB_HOST,
       'user'    => DB_USER,
       'pass'    => DB_PASS,
@@ -100,17 +99,13 @@
       'persist' => DB_PERSIST
     )); // connect
     if (defined('DB_CHARSET') && trim(DB_CHARSET)) {
-      DB::execute("SET NAMES ? COLLATE ?", DB_CHARSET, 'utf8_unicode_ci');
+      DB::attempt("SET NAMES ? COLLATE ?", DB_CHARSET, 'utf8_unicode_ci');
     } // if
-    DB::execute('ROLLBACK');
-    DB::execute('UNLOCK TABLES');
-    DB::execute('SET AUTOCOMMIT=1');
-    DB::execute("SET SQL_MODE=''");
-    try {
-      DB::execute("SET STORAGE_ENGINE=INNODB");  // try to set to INNODB
-    } catch(Exception $e) {
-      // don't care if it fails
-    }
+    DB::attempt('ROLLBACK');
+    DB::attempt('UNLOCK TABLES');
+    DB::attempt('SET AUTOCOMMIT=1');
+    DB::attempt("SET SQL_MODE=''");
+    DB::attempt("SET STORAGE_ENGINE=INNODB");
     //
     //Failed to import file '/home/sharec/public_html/pp088/tmp/Riot.zip' to the file repository (unique file id: a25a6e76db0b741ec4f30d6bbae79db37024c28a)
     // DB::execute('SET SESSION max_allowed_packet=16777216');  // 16 MB

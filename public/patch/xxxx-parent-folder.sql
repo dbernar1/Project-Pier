@@ -1,1 +1,0 @@
-ALTER TABLE `<?php echo $table_prefix ?>project_folders` ADD `parent_id` INT( 10 ) NOT NULL DEFAULT 0 AFTER `name`;

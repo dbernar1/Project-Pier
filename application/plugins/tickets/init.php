@@ -124,14 +124,6 @@ CREATE TABLE IF NOT EXISTS `{$tp}project_ticket_changes` (
 ";
     DB::execute($sql);
     $sql = "
-INSERT INTO `{$tp}config_categories` (`name`, `is_system`, `category_order`) VALUES ('tickets', 0, 4);
-";
-    DB::execute($sql);
-    $sql = "
-INSERT INTO `{$tp}config_options` (`category_name`, `name`, `value`, `config_handler_class`, `is_system`, `option_order`, `dev_comment`) VALUES ('tickets', 'tickets_default_categories', 'information request\r\nchange request\r\nincident report\r\ncomplaint\r\ndefect report\r\ngeneral/other', 'TextConfigHandler', 0, 3, NULL);
-";
-    DB::execute($sql);
-    $sql = "
 CREATE TABLE IF NOT EXISTS `{$tp}project_ticket_subscriptions` (
   `ticket_id` int(10) unsigned NOT NULL default '0',
   `user_id` int(10) unsigned NOT NULL default '0',
@@ -140,6 +132,17 @@ CREATE TABLE IF NOT EXISTS `{$tp}project_ticket_subscriptions` (
 ";
     // create table
     DB::execute($sql);
+
+    $sql = "
+INSERT INTO `{$tp}config_categories` (`name`, `is_system`, `category_order`) VALUES ('tickets', 0, 4);
+";
+    DB::execute($sql);
+
+    $sql = "
+INSERT INTO `{$tp}config_options` (`category_name`, `name`, `value`, `config_handler_class`, `is_system`, `option_order`, `dev_comment`) VALUES ('tickets', 'tickets_default_categories', 'information request\r\nchange request\r\nincident report\r\ncomplaint\r\ndefect report\r\ngeneral/other', 'TextConfigHandler', 0, 3, NULL);
+";
+    DB::execute($sql);
+
     // TODO add permissions
   }
   
@@ -156,13 +159,13 @@ CREATE TABLE IF NOT EXISTS `{$tp}project_ticket_subscriptions` (
     // sample drop table
     if ($purge)
     {
-        DB::execute("DELETE FROM `".TABLE_PREFIX."config_categories` WHERE `name` = 'tickets';");
-        DB::execute("DELETE FROM `".TABLE_PREFIX."config_options` WHERE `name` = 'tickets_default_categories';");
         DB::execute("DROP TABLE IF EXISTS `".TABLE_PREFIX."project_categories`;");
         DB::execute("DROP TABLE IF EXISTS `".TABLE_PREFIX."project_tickets`;");
         DB::execute("DROP TABLE IF EXISTS `".TABLE_PREFIX."project_ticket_changes`;");
         DB::execute("DROP TABLE IF EXISTS `".TABLE_PREFIX."project_ticket_subscriptions`;");
-        DB::execute("DELETE FROM `".TABLE_PREFIX."application_logs` where rel_object_manager='tickets';");
+        DB::execute("DELETE FROM `".TABLE_PREFIX."application_logs` where rel_object_manager='ProjectTickets';");
+        DB::execute("DELETE FROM `".TABLE_PREFIX."config_categories` WHERE `name` = 'tickets';");
+        DB::execute("DELETE FROM `".TABLE_PREFIX."config_options` WHERE `name` = 'tickets_default_categories';");
         // TODO delete permissions
     }
   }

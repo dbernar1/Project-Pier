@@ -20,6 +20,7 @@
 <?php add_javascript_to_page('jquery.min.js') ?>
 <?php add_javascript_to_page('jquery-ui.min.js') ?>
 <?php add_javascript_to_page('jquery.colorbox-min.js') ?>
+<?php add_javascript_to_page('jquery.jeditable.mini.js') ?>
 <?php add_javascript_to_page('jquery.imgareaselect.dev.js') ?>
 
 <?php echo render_page_head() ?>
@@ -34,8 +35,8 @@
       <div id="headerWrapper">
         <div id="header">
           <h1><a href="<?php echo get_url('dashboard') ?>"><?php echo $site_name ?></a></h1>
-          <h2><a href="<?php echo active_project()->getOverviewUrl() ?>"><?php echo clean(active_project()->getName()) ?></a></h2>
           <div id="userboxWrapper"><?php echo render_user_box(logged_user()) ?></div>
+          <h2><a href="<?php echo active_project()->getOverviewUrl() ?>"><?php echo clean(active_project()->getName()) ?></a></h2>
         </div>
       </div>
       <!-- /header -->

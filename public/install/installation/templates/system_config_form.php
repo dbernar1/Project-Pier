@@ -1,6 +1,21 @@
 <h1 class="pageTitle"><span>Step <?php echo $current_step->getStepNumber() ?>:</span> Database configuration</h1>
 <table class="formBlock">
   <tr>
+    <th colspan="2"></th>
+  </tr>
+  
+  <tr>
+    <td class="optionLabel"><label for="configFormDatabaseType">Database type:</label></td>
+    <td>
+      <select name="config_form[database_type]" id="configFormDatabaseType">
+        <option value="mysql">MySQL</option>
+      </select>
+    </td>
+  </tr>
+</table>
+
+<table class="formBlock">
+  <tr>
     <th colspan="2">Connection</th>
   </tr>
   

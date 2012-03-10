@@ -4,7 +4,7 @@ ProjectPier Change Log
 ~~~~~~~~~~~~~~~~~~~~~~
 
 ---------------------------------------
-Version 0.8.8 Sep 19, 2011 (alpha)
+Version 0.8.8 Jan 9, 2012
 ---------------------------------------
 
 Features:
@@ -13,15 +13,15 @@ Features:
 - Added   (dashboard) - My Files shows all important files reachable by a user (over projects).
 - Added   (datetime)  - Footer shows date, time, timezone, dst and [week] PP is working in.  
 - Added   (date fmt)  - Added language item 'input date format' to control date input format.  
+- Added   (i18n)      - Internationalization support (edit strings within ProjectPier)
 - Added   (links)     - Links support description and logo. 
 - Added   (links)     - Links can be added by project users. 
+- Added   (links)     - Snapshot of URL including edit option. 
 - Added   (send not.) - Configuration option for default of Send notification (see Features).
 - Added   (permission)- Lots of more permissions. 
 - Added   (projects)  - Support for subprojects. 
 - Added   (reports)   - Gantt chart, mind map. 
 - Added   (tasks)     - Add Time link to quickly add time if time plugin active. 
-- Added   (theme)     - Greenbase. 
-- Added   (theme)     - Redbase. 
 - Added   (time)      - Initialize to task from Add Time link and default description. 
 - Added   (tickets)   - Assign to milestone. 
 - Added   (tickets)   - Download all tickets. 
@@ -71,7 +71,6 @@ Issues:
 - Fixed   (Node 2058) - Missing icons for logtypes.
 - Fixed   (Node 2064) - Localized expand collapse.
 - Fixed   (Node 2103) - All short tags have become long.
-- Fixed   (Node 2107) - kampPro Broken layout for tasks.
 - Fixed   (Node 2167) - Fixed side bar size.
 - Fixed   (Node 2175) - Allow other date input formats than m/d/y.
 - Fixed   (Node 2180) - Fixed undefined variables in tickets plugin.

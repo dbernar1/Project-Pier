@@ -104,7 +104,6 @@
     'remove company from project' => 'Remove from project',
     
     // Password
-    'add contact' => 'New contact',
     'update profile' => 'Edit profile',
     'change password' => 'Change password',
     'update avatar' => 'Edit logo',
@@ -122,7 +121,10 @@
     '%s items downloaded' => '%s items in download',
     'nothing to download' => "No data available in '%s' to download",
     'download task lists' => 'Download all tasks',
+
+    // Internationalization
+    'i18n edit locale values' => 'Edit locale values',
     
   ); // array
 
-?>
+?>	

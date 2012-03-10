@@ -1,77 +1,54 @@
 <?php
-  if ( $contact->isNew() ) { // We're editing a contact
-    set_page_title(lang('add contact'));
+
+  set_page_title($contact->isNew() ? lang('add contact') : lang('edit contact'));
+  $user = $contact->getUserAccount();
+  if ($user instanceof User && $user->getId() == logged_user()->getId()) {
+    set_page_title(lang('update profile'));
+    account_tabbed_navigation();
+    account_crumbs(lang('update profile'));
+  } else {
+    set_page_title(lang('update profile'));
     if ($company instanceof Company && $company->isOwner()) {
       if (logged_user()->isAdministrator()) {
         administration_tabbed_navigation(ADMINISTRATION_TAB_COMPANY);
         administration_crumbs(array(
           array(lang('company'), $company->getViewUrl()),
-          array(lang('add contact'))
+          array(lang('update profile'))
         ));
       } else {
+        set_page_title(lang('update profile'));
         account_tabbed_navigation('contact');
-        account_crumbs(lang('add contact'));
+        account_crumbs(lang('update profile'));
       }
     } else {
        if ($contact->canEdit(logged_user())) {
+         set_page_title(lang('update profile'));
          account_tabbed_navigation('contact');
-         account_crumbs(lang('add contact'));
+         account_crumbs(lang('update profile'));
       } else {
         administration_tabbed_navigation(ADMINISTRATION_TAB_CLIENTS);
         administration_crumbs(array(
           array(lang('clients'), get_url('administration', 'clients')),
           array($company->getName(), $company->getViewUrl()),
           array($user->getDisplayName(), $user->getCardUrl()),
-          array(lang('add contact'))
+          array(lang('update profile'))
         ));
       } // if
     } // if
-  } else {
-    $user = $contact->getUserAccount();
-    set_page_title(lang('update profile'));
-    if ($user->getId() == logged_user()->getId()) {
-      account_tabbed_navigation();
-      account_crumbs(lang('update profile'));
-    } else {
-      if ($company instanceof Company && $company->isOwner()) {
-        if (logged_user()->isAdministrator()) {
-          administration_tabbed_navigation(ADMINISTRATION_TAB_COMPANY);
-          administration_crumbs(array(
-            array(lang('company'), $company->getViewUrl()),
-            array(lang('update profile'))
-          ));
-        } else {
-          account_tabbed_navigation('contact');
-          account_crumbs(lang('update profile'));
-        }
-      } else {
-         if ($contact->canEdit(logged_user())) {
-           account_tabbed_navigation('contact');
-           account_crumbs(lang('update profile'));
-        } else {
-          administration_tabbed_navigation(ADMINISTRATION_TAB_CLIENTS);
-          administration_crumbs(array(
-            array(lang('clients'), get_url('administration', 'clients')),
-            array($company->getName(), $company->getViewUrl()),
-            array($user->getDisplayName(), $user->getCardUrl()),
-            array(lang('update profile'))
-          ));
-        } // if
-      } // if
-    } // if
-    
-    if ($user->canUpdateProfile(logged_user())) {
-      add_page_action(array(
-        lang('change password') => $user->getEditPasswordUrl()
-      ));
-    } // if
-    
-    if ($user->canUpdatePermissions(logged_user())) {
-      add_page_action(array(
-        lang('permissions')  => $user->getUpdatePermissionsUrl()
-      ));
-    } // if
-  }
+  } // if
+  
+  if ($user instanceof User && $user->canUpdateProfile(logged_user())) {
+    add_page_action(array(
+      lang('update profile')  => $user->getEditProfileUrl(),
+      lang('change password') => $user->getEditPasswordUrl()
+    ));
+  } // if
+  
+  if ($user instanceof User && $user->canUpdatePermissions(logged_user())) {
+    add_page_action(array(
+      lang('permissions')  => $user->getUpdatePermissionsUrl()
+    ));
+  } // if
 
   add_stylesheet_to_page('admin/user_permissions.css');
 
@@ -107,9 +84,6 @@
       <?php echo label_tag(lang('timezone'), 'contactFormNewCompanyTimezone', true)?>
       <?php echo select_timezone_widget('contact[company][timezone]', owner_company()->getTimezone(), array('id' => 'contactFormNewCompanyTimezone', 'class' => 'long combobox')) ?>
     </div>
-    <script type="text/javascript">
-    App.modules.addContactForm.toggleCompanyForms();
-    </script>
   </fieldset>
 
 <?php } else { ?>
@@ -200,13 +174,6 @@
   </fieldset>
 <?php } // if ?>
 
-<fieldset>
-<?php if (plugin_active('tags')) { ?>
-  <legend><?php echo lang('tags') ?></legend>
-  <?php echo project_object_tags_widget('contact[tags]', active_project(), array_var($contact_data, 'tags'), array('id' => 'contactFormTags', 'class' => 'long')) ?>
-</fieldset>
-<?php } // if ?>
-
 <?php if ($contact->isNew() && logged_user()->isAdministrator()) { ?>
   <fieldset>
     <legend><?php echo lang('user account'); ?></legend>
@@ -257,9 +224,6 @@
           </div>
         </div>
       </fieldset>
-      <script type="text/javascript">
-        App.modules.addContactForm.generateRandomPasswordClick();
-      </script>
 
       <div class="formBlock">
         <?php echo label_tag(lang('send new account notification'), null, true) ?>
@@ -267,9 +231,6 @@
         <br /><span class="desc"><?php echo lang('send new account notification desc') ?></span>
       </div>
     </div>
-    <script type="text/javascript">
-      App.modules.addContactForm.toggleUserAccountForm();
-    </script>
 <?php } // if ?>
   </fieldset>
 
