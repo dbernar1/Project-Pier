@@ -2,6 +2,18 @@
 
   // Return array of langs
   return array(
+    'show route' => 'Show route',
+    'reserve parking space' => 'Reserve parking space',
+    'display name' => 'Display name',
+    'first name' => 'First name',
+    'middle name' => 'Middle name',
+    'last name' => 'Last name',
+    'additional' => 'Additional',
+    'license plate' => 'License plate',
+    'language preferences' => 'Language preferences',
+    'food preferences' => 'Food preferences',
+    'location details' => 'Location details',
+    'department details' => 'Department details',
     'i18n' => 'Internationalization',
     'i18n locale value' => 'Locale value',
     'country code' => 'Country code',
@@ -9,6 +21,7 @@
     'click to edit' => 'Click to edit, Esc to cancel, Enter to save',
     'editor' => 'Editor',
     'edit values' => 'Edit values',
+    'load values' => 'Load values',
     'add locale' => 'Add locale',
     'edit locale' => 'Edit locale',
     'locale' => 'Locale',
@@ -239,7 +252,7 @@
 
     'weeks' => 'weeks',
     'days' => 'days',
-    'hours' => 'hours',
+    'hours/lc' => 'hours',
     'minutes' => 'minutes',
     'seconds' => 'seconds',
 

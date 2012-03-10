@@ -2,7 +2,7 @@
 Version
 ~~~~~~~
 
-This is version 0.8.8 - Enjoy!
+This is version 0.8.8.sp2 - Enjoy!
 
 ~~~~~~~~~~~~~~~~~~~
 STABLE
@@ -105,9 +105,9 @@ install the test versions. We were happy with the feedback and the contributions
 In particular the following individuals get a special thank you:
 
 SethZora - for his remarks, ideas and testing
+Kemie - for fixing the Marine theme
 jokoe - for the French translation
-Bluesky - for his inspiration
-dbernar1 - for his contributions
+visor7 - for the Spanish translation
 
 ~~~~~~~~~~~~~~~~~
 About ProjectPier

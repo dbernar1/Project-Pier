@@ -463,7 +463,8 @@
           $this->contact = $contact;
         } else {
           $this->contact = new Contact;
-          $this->contact->setName(lang('missing contact'));
+          $this->contact->setDisplayName(lang('missing contact'));
+          $this->contact->setCompanyId(owner_company()->getId());
         }
       }
       return $this->contact;
@@ -982,7 +983,7 @@
     * @return null
     */
     function getCardUrl() {
-      return get_url('contacts', 'card', $this->getId());
+      return get_url('contacts', 'card', $this->getContact()->getId());
     } // getCardUrl
     
     /**
@@ -993,8 +994,7 @@
     * @return string
     */
     function getEditUrl() {
-      //return get_url('user', 'edit', $this->getId());
-      return get_url('contacts', 'edit_user_account', $this->getId());
+      return get_url('contacts', 'edit_user_account', $this->getContact()->getId());
     } // getEditUrl
     
     /**

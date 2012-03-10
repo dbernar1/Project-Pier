@@ -57,10 +57,28 @@
 
 <?php tpl_display(get_template_path('form_errors')) ?>
 
-  <div>
-    <?php echo label_tag(lang('name'), 'contactFormDisplayName', true) ?>
-    <?php echo text_field('contact[display_name]', array_var($contact_data, 'display_name'), array('class' => 'medium', 'id' => 'contactFormDisplayName')) ?>
-  </div>
+  <fieldset>
+    <legend><?php echo label_tag(lang('name'), 'contactFormName', true) ?></legend>
+    <div>
+      <?php echo label_tag(lang('display name'), 'contactFormDisplayName', true) ?>
+      <?php echo text_field('contact[display_name]', array_var($contact_data, 'display_name'), array('class' => 'medium', 'id' => 'contactFormDisplayName')) ?>
+    </div>
+
+    <div>
+      <?php echo label_tag(lang('first name'), 'contactFormFirstName', false) ?>
+      <?php echo text_field('contact[first_name]', array_var($contact_data, 'first_name'), array('class' => 'medium', 'id' => 'contactFormFirstName')) ?>
+    </div>
+
+    <div>
+      <?php echo label_tag(lang('middle name'), 'contactFormMiddleName', false) ?>
+      <?php echo text_field('contact[middle_name]', array_var($contact_data, 'middle_name'), array('class' => 'medium', 'id' => 'contactFormMiddleName')) ?>
+    </div>
+
+    <div>
+      <?php echo label_tag(lang('last name'), 'contactFormLastName', false) ?>
+      <?php echo text_field('contact[last_name]', array_var($contact_data, 'last_name'), array('class' => 'medium', 'id' => 'contactFormLastName')) ?>
+    </div>
+  </fieldset>
   
 <?php if (logged_user()->isAdministrator()) { ?>
 <?php if (!$contact->isAdministrator()) { ?>
@@ -108,23 +126,21 @@
   
   <div>
     <fieldset>
-      <legend><?php echo lang('current avatar') ?></legend>
+      <legend><?php echo lang('avatar') ?></legend>
 <?php if ($contact->hasAvatar()) { ?>
       <img src="<?php echo $contact->getAvatarUrl() ?>" alt="<?php echo clean($contact->getDisplayName()) ?> avatar" />
       <p><?php echo checkbox_field('contact[delete_avatar]', false, array('id'=>'contactDeleteAvatar', 'class' => 'checkbox')) ?> <?php echo label_tag(lang('delete current avatar'), 'contactDeleteAvatar', false, array('class' => 'checkbox'), '') ?></p>
 <?php } else { ?>
       <p><?php echo lang('no current avatar') ?></p>
 <?php } // if ?>
-    </fieldset>
     <?php echo label_tag(lang('avatar'), 'contactFormAvatar', false) ?>
     <?php echo file_field('new avatar', null, array('id' => 'contactFormAvatar')) ?>
 <?php if ($contact->hasAvatar()) { ?>
     <p class="desc"><?php echo lang('new avatar notice') ?></p>
 <?php } // if ?>
-  </div>
-  <div>
     <?php echo label_tag(lang('use gravatar'), 'contactFormUseGravatar', true) ?>
     <?php echo yes_no_widget('contact[use_gravatar]', 'contactFormUseGravatar', array_var($contact_data, 'use_gravatar'), lang('yes'), lang('no')) ?>
+    </fieldset>
   </div>
 
   <fieldset>
@@ -152,6 +168,38 @@
     
   </fieldset>
 
+  <fieldset>
+    <legend><?php echo lang('additional') ?></legend>
+
+    <div>
+      <?php echo label_tag(lang('language preferences'), 'contactFormLanguagePreferences') ?>
+      <?php echo text_field('contact[language_preferences]', array_var($contact_data, 'language_preferences'), array('id' => 'contactFormLanguagePreferences')) ?>
+    </div>
+   
+    <div>
+      <?php echo label_tag(lang('food preferences'), 'contactFormFoodPreferences') ?>
+      <?php echo text_field('contact[food_preferences]', array_var($contact_data, 'food_preferences'), array('id' => 'contactFormFoodPreferences')) ?>
+    </div>
+    
+    <div>
+      <?php echo label_tag(lang('license plate'), 'contactFormLicensePlate') ?>
+      <?php echo text_field('contact[license_plate]', array_var($contact_data, 'license_plate'), array('id' => 'contactFormLicensePlate')) ?>
+    </div>
+    
+    <div>
+      <?php echo label_tag(lang('department details'), 'contactFormDepartmentDetails') ?>
+      <?php echo text_field('contact[department_details]', array_var($contact_data, 'department_details'), array('id' => 'contactFormDepartmentDetails')) ?>
+    </div>
+    
+    <div>
+      <?php echo label_tag(lang('location details'), 'contactFormLocationDetails') ?>
+      <?php echo text_field('contact[location_details]', array_var($contact_data, 'location_details'), array('id' => 'contactFormLocationDetails')) ?>
+    </div>
+    
+  </fieldset>
+
+
+
 <?php if (is_array($im_types) && count($im_types)) { ?>
   <fieldset>
     <legend><?php echo lang('instant messengers') ?></legend>
@@ -173,66 +221,6 @@
     <p class="desc"><?php echo lang('primary im description') ?></p>
   </fieldset>
 <?php } // if ?>
-
-<?php if ($contact->isNew() && logged_user()->isAdministrator()) { ?>
-  <fieldset>
-    <legend><?php echo lang('user account'); ?></legend>
-    
-    <div>
-      <?php echo radio_field('contact[user][add_account]', array_var($user_data, 'add_account') != 'yes', array('value' => 'no', 'id'=>'contactFormNoUserAccount' )); ?>
-      <?php echo label_tag(lang('no'), 'contactFormNoUserAccount', false, array('class' => 'checkbox'), '') ?>
-    </div>
-    
-    <div>
-      <?php echo radio_field('contact[user][add_account]', array_var($user_data, 'add_account') == 'yes', array('value' => 'yes', 'id'=>'contactFormAddUserAccount' )); ?>
-      <?php echo label_tag(lang('yes'), 'contactFormAddUserAccount', false, array('class' => 'checkbox'), '') ?>
-    </div>
-
-    <div id="contactFormUserAccountControls">
-      <div>
-        <?php echo label_tag(lang('username'), 'contactFormUsername', true) ?>
-        <?php echo text_field('contact[user][username]', array_var($user_data, 'username'), array('class' => 'medium', 'id' => 'contactFormUsername')) ?>
-      </div>
-
-      <div>
-        <?php echo label_tag(lang('email address'), 'contactFormUserEmail', true) ?>
-        <?php echo text_field('contact[user][email]', array_var($user_data, 'email'), array('class' => 'long', 'id' => 'contactFormUserEmail')) ?>
-      </div>
-
-      <div>
-        <?php echo label_tag(lang('timezone'), 'contactFormUserTimezone', true)?>
-        <?php echo select_timezone_widget('contact[user][timezone]', array_var($user_data, 'timezone') ? array_var($user_data, 'timezone') : owner_company()->getTimezone(), array('id' => 'contactFormUserTimezone', 'class' => 'long combobox')) ?>
-      </div>
-
-      <fieldset>
-        <legend><?php echo lang('password') ?></legend>
-        <div>
-          <?php echo radio_field('contact[user][password_generator]', array_var($user_data, 'password_generator') == 'random', array('value' => 'random', 'class' => 'checkbox', 'id' => 'userFormRandomPassword' )) ?> <?php echo label_tag(lang('user password generate'), 'userFormRandomPassword', false, array('class' => 'checkbox'), '') ?>
-        </div>
-        <div>
-          <?php echo radio_field('contact[user][password_generator]', array_var($user_data, 'password_generator') == 'specify', array('value' => 'specify', 'class' => 'checkbox', 'id' => 'userFormSpecifyPassword' )) ?> <?php echo label_tag(lang('user password specify'), 'userFormSpecifyPassword', false, array('class' => 'checkbox'), '') ?>
-        </div>
-        <div id="userFormPasswordInputs">
-          <div>
-            <?php echo label_tag(lang('password'), 'userFormPassword', true) ?>
-            <?php echo password_field('contact[user][password]', null, array('id' => 'userFormPassword')) ?>
-          </div>
-
-          <div>
-            <?php echo label_tag(lang('password again'), 'userFormPasswordA', true) ?>
-            <?php echo password_field('contact[user][password_a]', null, array('id' => 'userFormPasswordA')) ?>
-          </div>
-        </div>
-      </fieldset>
-
-      <div class="formBlock">
-        <?php echo label_tag(lang('send new account notification'), null, true) ?>
-        <?php echo yes_no_widget('contact[user][send_email_notification]', 'userFormEmailNotification', array($user_data, 'send_email_notification'), lang('yes'), lang('no')) ?>
-        <br /><span class="desc"><?php echo lang('send new account notification desc') ?></span>
-      </div>
-    </div>
-<?php } // if ?>
-  </fieldset>
 
   <?php echo submit_button($contact->isNew() ? lang('add contact') : lang('edit contact')) ?>
 </form>

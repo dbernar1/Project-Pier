@@ -116,42 +116,7 @@
           } // if
           
           $contact->setCompanyId($company_id);
-
-          // User account info
-          if (array_var($user_data, 'add_account') == "yes") {
-            $user = new User();
-            $user->setFromAttributes($user_data);
-
-            if (array_var($user_data, 'password_generator') == 'random') {
-              // Generate random password
-              $password = substr(sha1(uniqid(rand(), true)), rand(0, 25), 13);
-            } else {
-              // Validate user input
-              $password = array_var($user_data, 'password');
-              if (trim($password) == '') {
-                throw new Error(lang('password value required'));
-              } // if
-              if ($password <> array_var($user_data, 'password_a')) {
-                throw new Error(lang('passwords dont match'));
-              } // if
-            } // if
-            $user->setPassword($password);
-
-            if (logged_user()->isAdministrator()) {
-              $user->setIsAdmin( array_var($user_data, 'is_admin') );
-              $user->setAutoAssign( array_var($user_data, 'auto_assign') );
-            } else {
-              $user->setIsAdmin( 0 );
-              $user->setAutoAssign( 0 );
-            }
-
-            $user->save();
-            
-            $contact->setUserId($user->getId());
-          } else {
-            $contact->setUserId(0);
-          } // if
-
+          $contact->setUserId(0);
           $contact->save();
           if (plugin_active('tags')) {
             $contact->setTagsFromCSV(array_var($contact_data, 'tags'));
@@ -176,14 +141,6 @@
           ApplicationLogs::createLog($contact, null, ApplicationLogs::ACTION_ADD);
           DB::commit();
 
-          // Send notification...
-          try {
-            if (array_var($user_data, 'add_account') == "yes" && array_var($user_data, 'send_email_notification')) {
-              Notifier::newUserAccount($user, $password);
-            } // if
-          } catch(Exception $e) {
-          } // try
-          
           flash_success(lang('success add contact', $contact->getDisplayName()));
           $this->redirectToUrl($contact->getCardUrl()); // Translate to profile page
           
@@ -227,6 +184,9 @@
         }
         $contact_data = array(
           'display_name' => $contact->getDisplayName(),
+          'first_name' => $contact->getFirstName(),
+          'middle_name' => $contact->getMiddleName(),
+          'last_name' => $contact->getLastName(),
           'company_id' => $contact->getCompanyId(),
           'title' => $contact->getTitle(),
           'email' => $contact->getEmail(),
@@ -234,6 +194,10 @@
           'fax_number' => $contact->getFaxNumber(),
           'mobile_number' => $contact->getMobileNumber(),
           'home_number' => $contact->getHomeNumber(),
+          'food_preferences'  => $contact->getFoodPreferences(),
+          'license_plate'  => $contact->getLicensePlate(),
+          'location_details'  => $contact->getLocationDetails(),
+          'department_details'  => $contact->getDepartmentDetails(),
           'use_gravatar'  => $contact->getUseGravatar(),
           'tags' => is_array($tag_names) ? implode(', ', $tag_names) : '',
         ); // array
@@ -456,6 +420,7 @@
       $user_data = array_var($_POST, 'user');
       if (!is_array($user_data)) {
         $user_data = array(
+          'email' => $contact->getEmail(),
           'password_generator' => 'random',
           'timezone' => $company->getTimezone(),
         ); // array

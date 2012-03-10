@@ -77,6 +77,7 @@
     'move task list' => 'Move task list',
     'delete task list' => 'Delete task list',
     'download task list' => 'Download',
+    'pdf' => 'PDF',
     'reorder tasks' => 'Reorder tasks',
     
     // Task
@@ -123,8 +124,7 @@
     'download task lists' => 'Download all tasks',
 
     // Internationalization
-    'i18n edit locale values' => 'Edit locale values',
-    
+    'select language' => 'Select language',
   ); // array
 
 ?>
