@@ -431,11 +431,20 @@
     * @return boolean
     */
     function delete() {
-      $task_list = $this->getTaskList();
-      if ($task_list instanceof ProjectTaskList) {
-        $task_list->detachTask($this);
+      try {
+        DB::beginWork();
+        $task_list = $this->getTaskList();
+        if ($task_list instanceof ProjectTaskList) {
+          $task_list->detachTask($this);
+        }
+        parent::delete();
+        ApplicationLogs::createLog($this, active_project(), ApplicationLogs::ACTION_DELETE);
+        DB::commit();
+        return true;
+      } catch( Exception $e ) {
+        DB::rollback();
+        return false;
       }
-      return parent::delete();
     } // delete
     
     // ---------------------------------------------------

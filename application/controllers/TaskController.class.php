@@ -61,6 +61,8 @@
       $project_name = active_project()->getName();
       $task_list_name = $task_list->getName();
       $task_count = 0;
+
+      // TODO: Extract PDF creation into a function of its own
       if ($output == 'pdf' ) {
         Env::useLibrary('fpdf');
         $download_name = "{$project_name}-{$task_list_name}-tasks.pdf";
@@ -815,71 +817,44 @@
     } // task_details
     
     /**
-    * Delete specific task
+    * Delete a task without refreshing the page.
+    * Receives task id
+    * On success, 
     *
     * @access public
     * @param void
     * @return null
     */
     function delete_task() {
-      $this->setTemplate('del_task');
-
-      $task = ProjectTasks::findById(get_id());
-      if (!($task instanceof ProjectTask)) {
-        flash_error(lang('task dnx'));
-        $this->redirectTo('task');
-      } // if
+      $task = ProjectTasks::findById( get_id() );
       
-      $task_list = $task->getTaskList();
-      if (!($task_list instanceof ProjectTaskList)) {
-        flash_error('task list dnx');
-        $this->redirectTo('task');
-      } // if
-      
-      if (!$task->canDelete(logged_user())) {
-        flash_error(lang('no access permissions'));
-        $this->redirectTo('task');
-      } // if
-      
-      $delete_data = array_var($_POST, 'deleteTask');
-      tpl_assign('task', $task);
-      tpl_assign('task_list', $task_list);
-      tpl_assign('delete_data', $delete_data);
-
-      if (!is_array($delete_data)) {
-        $delete_data = array(
-          'really' => 0,
-          'password' => '',
-          ); // array
-        tpl_assign('delete_data', $delete_data);
-      } else if ($delete_data['really'] == 1) {
-        $password = $delete_data['password'];
-        if (trim($password) == '') {
-          tpl_assign('error', new Error(lang('password value missing')));
-          return $this->render();
+      if ( $task instanceof ProjectTask ) {
+        $task_list = $task->getTaskList();
+        if ( $task_list instanceof ProjectTaskList ) {
+          if ( $task->canDelete( logged_user() ) ) {
+            if ( $task->delete() ) {
+              $message = 'success delete task';
+              $status_code = '200 OK';
+            } else {
+              $message = 'error delete task';
+              $status_code = '500 Internal Server Error';
+            }
+          } else {
+            $message = 'no access permissions';
+            $status_code = '401 Unauthorized';
+          }
+        } else {
+          $message = 'task list dnx';
+          $status_code = '404 Not Found';
         }
-        if (!logged_user()->isValidPassword($password)) {
-          tpl_assign('error', new Error(lang('invalid login data')));
-          return $this->render();
-        }
-        try {
-          DB::beginWork();
-          $task->delete();
-          ApplicationLogs::createLog($task, active_project(), ApplicationLogs::ACTION_DELETE);
-          DB::commit();
-
-          flash_success(lang('success delete task'));
-        } catch(Exception $e) {
-          DB::rollback();
-          flash_error(lang('error delete task'));
-        } // try
-
-        $this->redirectToUrl($task_list->getViewUrl());
       } else {
-        flash_error(lang('error delete task'));
-        $this->redirectToUrl($task_list->getViewUrl());
+        $message = 'task dnx';
+        $status_code = '404 Not Found';
       }
-    } // delete_task
+      header("HTTP/1.1 ".$status_code);
+      echo lang( $message );
+      die;
+    }
     
     /**
     * Complete single project task

@@ -200,7 +200,7 @@
   * @return string
   */
   function request_controller() {
-    $controller = trim(array_var($_GET, 'c', DEFAULT_CONTROLLER));
+    $controller = trim(array_var($_REQUEST, 'c', DEFAULT_CONTROLLER));
     return $controller && is_valid_function_name($controller) ? $controller : DEFAULT_CONTROLLER;
   } // request_controller
   
@@ -212,7 +212,7 @@
   * @return string
   */
   function request_action() {
-    $action = trim(array_var($_GET, 'a', DEFAULT_ACTION));
+    $action = trim(array_var($_REQUEST, 'a', DEFAULT_ACTION));
     return $action && is_valid_function_name($action) ? $action : DEFAULT_ACTION;
   } // request_action
   

@@ -165,7 +165,7 @@
     if ($var_name == '') return $default; // empty varname?
     
     if (is_null($from)) {
-      $from = $_GET;
+      $from = $_REQUEST;
     }
     
     if (!is_array($from)) return $default; // $from is array?
